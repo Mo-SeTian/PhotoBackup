@@ -1,5 +1,6 @@
 package com.mosetian.photobackupproject.controller;
 
+import com.mosetian.photobackupproject.utils.ServerChanAPI;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.model.enums.CompressionLevel;
@@ -19,18 +20,19 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("/backup")
 public class photoBackupController {
 
-    @Value("${photoBackup.folderToZip}")
+    @Value("${folderToZip:/upload}")
     private String folderToZip;
 
-    @Value("${photoBackup.targetZipFilePath}")
+    @Value("${targetZipFilePath:/uploadFinal}")
     private String targetZipFilePath;
 
-    @Value("${photoBackup.password}")
+    @Value("${password:Mosetian1999}")
     private String password;
 
     //手动触发备份
     @GetMapping("/start")
-    public String photoBackupHandle() {
+    public String photoBackupHandle() throws Exception {
+        ServerChanAPI.sendMessage("照片手动触发打包任务", "任务开始...");
         System.out.println("接收到手动备份请求,开始进行备份!");
         new Thread(() -> {
             try {
@@ -55,6 +57,7 @@ public class photoBackupController {
         System.out.println("压缩结束 <========");
         double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
         System.out.println("压缩总耗时 " + durationInSeconds + " 秒.");
+        ServerChanAPI.sendMessage("照片手动触发打包任务", "任务结束...耗时:" + durationInSeconds + "秒");
     }
 
     public void zipFolder(String targetZipFilePath, String folderToZip, String password) throws Exception {

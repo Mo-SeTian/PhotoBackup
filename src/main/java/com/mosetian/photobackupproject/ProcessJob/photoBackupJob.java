@@ -1,6 +1,7 @@
 package com.mosetian.photobackupproject.ProcessJob;
 
 import com.mosetian.photobackupproject.controller.photoBackupController;
+import com.mosetian.photobackupproject.utils.ServerChanAPI;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.model.enums.CompressionLevel;
@@ -18,17 +19,18 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class photoBackupJob {
 
-    @Value("${photoBackup.folderToZip}")
+    @Value("${folderToZip:/upload}")
     private String folderToZip;
 
-    @Value("${photoBackup.targetZipFilePath}")
+    @Value("${targetZipFilePath:/uploadFinal}")
     private String targetZipFilePath;
 
-    @Value("${photoBackup.password}")
+    @Value("${password:Mosetian1999}")
     private String password;
 
-    @Scheduled(cron = "0 0 3 * * 0")
+    @Scheduled(cron = "${CRON_VALUE:0 0 3 * * 0}")
     public void jobMain() throws Exception {
+        ServerChanAPI.sendMessage("照片自动打包任务", "任务开始...");
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String formattedDate = currentDate.format(formatter);
@@ -40,6 +42,7 @@ public class photoBackupJob {
         System.out.println("压缩结束 <========");
         double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
         System.out.println("压缩总耗时 " + durationInSeconds + " 秒.");
+        ServerChanAPI.sendMessage("照片自动打包任务", "任务结束...耗时:" + durationInSeconds + "秒");
     }
 
     public void zipFolder(String targetZipFilePath, String folderToZip, String password) throws Exception {

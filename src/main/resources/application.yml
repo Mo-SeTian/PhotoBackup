@@ -1,11 +1,2 @@
 server:
   port: 8118
-photoBackup:
-  # 待压缩的文件夹路径
-  #folderToZip: /upload
-  folderToZip: D:\IDM下载\临时文件
-  # 压缩后的ZIP文件路径
-  #targetZipFilePath: /uploadFinal/photoBackup_
-  targetZipFilePath: D:\IDM下载\
-  # 压缩密码
-  password: Mosetian1999
