@@ -23,7 +23,7 @@ public class photoBackupController {
     @Value("${folderToZip:/upload}")
     private String folderToZip;
 
-    @Value("${targetZipFilePath:/uploadFinal}")
+    @Value("${targetZipFilePath:/uploadFinal/photoBackup_}")
     private String targetZipFilePath;
 
     @Value("${password:Mosetian1999}")
