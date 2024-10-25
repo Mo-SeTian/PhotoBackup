@@ -21,9 +21,7 @@ public class controlController {
     public String getWeek() {
         LocalDate date = LocalDate.now();
         DayOfWeek dayOfWeek = date.getDayOfWeek();
-        // 中文星期几
-        String[] weekdays = {"", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
-        return weekdays[dayOfWeek.getValue()];
+        return dayOfWeek.toString();
     }
 
     @GetMapping("/weather")
